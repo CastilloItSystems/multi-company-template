@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+    id        String   @id @default(cuid())
+    email     String   @unique
+    name      String?
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relación muchos a muchos con Company a través de UserCompany
+    userCompanies UserCompany[]
+
+    @@map("users")
+}
+
+model Company {
+    id        String   @id @default(cuid())
+    name      String
+    code      String   @unique
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relación muchos a muchos con User a través de UserCompany
+    userCompanies UserCompany[]
+
+    @@map("companies")
+}
+
+// Tabla intermedia para la relación muchos a muchos
+model UserCompany {
+    id        String   @id @default(cuid())
+    userId    String
+    companyId String
+    role      String   @default("user") // admin, user, viewer, etc.
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relaciones
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+    // Un usuario no puede tener roles duplicados en la misma empresa
+    @@unique([userId, companyId])
+    @@map("user_companies")
+}
