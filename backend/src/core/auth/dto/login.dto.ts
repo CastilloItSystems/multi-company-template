@@ -10,7 +10,7 @@ export class LoginDto {
   email: string;
 
   @ApiProperty({
-    example: 'admin123',
+    example: 'password123',
     description: 'Contraseña del usuario',
     minLength: 6,
   })
