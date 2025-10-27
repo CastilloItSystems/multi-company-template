@@ -20,12 +20,28 @@ export const usersApi = {
 
   // Create user
   create: async (data: CreateUserDto): Promise<User> => {
-    return apiClient.post<User>("/users", data);
+    // Backend expects `name` (single string) instead of firstName/lastName
+    const nameParts = [data.firstName, data.lastName].filter(Boolean);
+    const payload: Record<string, unknown> = {
+      email: data.email,
+    };
+    if (nameParts.length) payload.name = nameParts.join(" ");
+    if (data.password) payload.password = data.password;
+
+    return apiClient.post<User>("/users", payload);
   },
 
   // Update user
   update: async (id: string, data: UpdateUserDto): Promise<User> => {
-    return apiClient.patch<User>(`/users/${id}`, data);
+    // Map frontend fields (firstName/lastName) to backend expected shape (name)
+    const payload: Record<string, unknown> = {};
+    if (data.email !== undefined) payload.email = data.email;
+    // if either firstName or lastName provided, combine into `name`
+    const nameParts = [data.name].filter(Boolean);
+    if (nameParts.length) payload.name = nameParts.join(" ");
+    if (data.password !== undefined) payload.password = data.password;
+
+    return apiClient.patch<User>(`/users/${id}`, payload);
   },
 
   // Delete user

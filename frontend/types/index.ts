@@ -28,8 +28,7 @@ export enum UserRole {
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   role: UserRole;
   createdAt: string;
   updatedAt: string;
@@ -46,8 +45,7 @@ export interface CreateUserDto {
 
 export interface UpdateUserDto {
   email?: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   password?: string;
   role?: UserRole;
 }

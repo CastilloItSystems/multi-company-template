@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { Card } from "primereact/card";
 import { Chart } from "primereact/chart";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function CompanyDashboardPage() {
   const params = useParams();

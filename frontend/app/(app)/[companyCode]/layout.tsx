@@ -169,13 +169,13 @@ export default function CompanyAppLayout({
 
               <div className="flex items-center space-x-2">
                 <Avatar
-                  label={user?.firstName?.charAt(0).toUpperCase()}
+                  label={user?.name?.charAt(0).toUpperCase()}
                   shape="circle"
                   className="bg-blue-500 text-white"
                 />
                 <div className="hidden md:block">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {user?.firstName} {user?.lastName}
+                    {user?.name}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {user?.role}

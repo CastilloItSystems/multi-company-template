@@ -87,8 +87,22 @@ class ApiClient {
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    const response = await this.client.patch<T>(url, data, config);
-    return response.data;
+    try {
+      const response = await this.client.patch<T>(url, data, config);
+      return response.data;
+    } catch (err) {
+      // Enhance Axios errors with response body for easier debugging in the UI
+      if (axios.isAxiosError(err) && err.response) {
+        const body = err.response.data;
+        const message = typeof body === "string" ? body : JSON.stringify(body);
+        type EnrichedError = Error & { status?: number; body?: unknown };
+        const e = new Error(message) as EnrichedError;
+        e.status = err.response.status;
+        e.body = body;
+        throw e;
+      }
+      throw err;
+    }
   }
 
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {

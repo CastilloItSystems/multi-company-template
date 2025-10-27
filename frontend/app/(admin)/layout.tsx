@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
+import AdminSidebar from "@/components/layout/AdminSidebar";
 
 export default function MainLayout({
   children,
@@ -61,14 +62,14 @@ export default function MainLayout({
                 label="Usuarios"
                 icon="pi pi-users"
                 link
-                onClick={() => router.push("/admin/users")}
+                onClick={() => router.push("/users")}
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               />
               <Button
                 label="Empresas"
                 icon="pi pi-building"
                 link
-                onClick={() => router.push("/admin/companies")}
+                onClick={() => router.push("/companies")}
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               />
             </nav>
@@ -76,13 +77,13 @@ export default function MainLayout({
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Avatar
-                  label={user?.firstName?.charAt(0).toUpperCase()}
+                  label={user?.name?.charAt(0).toUpperCase()}
                   shape="circle"
                   className="bg-blue-500 text-white"
                 />
                 <div className="hidden md:block">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {user?.firstName} {user?.lastName}
+                    {user?.name}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {user?.role}
@@ -101,10 +102,14 @@ export default function MainLayout({
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
-      </main>
+      {/* Main Layout with Sidebar */}
+      <div className="flex">
+        <AdminSidebar />
+
+        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
