@@ -45,7 +45,7 @@ export default function MainLayout({
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                Multi-Company App
+                Admin - Multi-Company
               </h1>
             </div>
 
@@ -61,14 +61,14 @@ export default function MainLayout({
                 label="Usuarios"
                 icon="pi pi-users"
                 link
-                onClick={() => router.push("/users")}
+                onClick={() => router.push("/admin/users")}
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               />
               <Button
                 label="Empresas"
                 icon="pi pi-building"
                 link
-                onClick={() => router.push("/companies")}
+                onClick={() => router.push("/admin/companies")}
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               />
             </nav>
